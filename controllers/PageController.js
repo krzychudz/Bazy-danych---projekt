@@ -1,24 +1,26 @@
-const bookshelf = require('../config/bookshelf');
+//All controllers which are used to render sites
+const component = require('../models/component');
+const producer = require('../models/producer');
 
-const miastoModel = bookshelf.Model.extend(
-    {
-        tableName: 'MIASTO'
-    }
-);
-
-const getDB = () =>
-{
-    return new miastoModel().fetchAll();
-}
 
 exports.home = (req, res) =>
 {
+    res.render('home');
+};
 
-    var data = getDB().then(function (resData) {
+exports.productCreate = (req, res) =>
+{
+    var data = component.getData().then(function (componentData) {
 
-        console.log(resData.serialize());
+        var data1 = producer.getData().then(function (producerData) {
+
+            res.render('productCreate', {
+                components: componentData.serialize(),
+                producers: producerData.serialize()
+            })
+
+        });
 
     });
 
-    res.render('home');
-};
+}

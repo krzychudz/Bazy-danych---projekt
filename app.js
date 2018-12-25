@@ -11,7 +11,7 @@ const app = express();
 
 app.set('views', path.join(__dirname, 'views')); // Set dir for views
 app.set('view engine', 'pug');  // Set view engine
-app.set(express.static(path.join(__dirname,'public'))); //set dir for public
+app.use(express.static(path.join(__dirname,'public'))); //set dir for public
 
 app.use(bodyParser.json()); // Configure body parser
 app.use(bodyParser.urlencoded({extended: true}));

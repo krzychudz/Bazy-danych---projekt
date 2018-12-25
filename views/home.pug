@@ -1,5 +1,46 @@
 html
     head
         title Sklep
+        link(rel='stylesheet' href='/css/home.css')
     body
-        h1 Hello
+        div#wrapper
+            div#header System zarządania sklepem
+
+        div#nav
+            ol
+                li Produkty
+                    ul
+                        li
+                            a(href="/productCreate") Dodaj
+                        li
+                            a(href="#") Wyświetl/Edytuj
+                li Zamówenia
+                    ul
+                        li
+                            a(href="#") Dodaj
+                        li
+                            a(href="#") Wyświetl/Edytuj
+                li Reklamacje
+                    ul
+                        li
+                            a(href="#") Dodaj
+                        li
+                            a(href="#") Wyświetl/Edytuj
+                li Dostawy
+                    ul
+                        li
+                            a(href="#") Wyświetl
+                li Magazyn
+                    ul
+                        li
+                            a(href="#") Wyświetl
+
+
+        div#content
+            p Za pomocą tego systemu możesz w prosty sposób kontrolować swój sklep.
+            p Wybierając odpowiednie pozycje z menu powyżej możesz kontrolować różne aspetky sklepu.
+            p Produkty - tutaj możesz dodać, usunąć, edytować lub wyświetlić listę produktów w twoim sklepie.
+            p Zamówenia - tutaj możesz dodać, usunąć, edytować lub wyświelić listę zamówień.
+            p Reklamacje - tutaj możesz dodać, usunąć, edytować lub wyświelić listę reklamacji.
+            p Dostawy - tutaj możesz wyświelić listę dotawy, które są planwane w twoim sklepie.
+            p Magazyn - tutaj sprawdzisz aktulany stan magazynu.

@@ -1,0 +1,32 @@
+html
+    head
+        title Produkt
+        link(rel='stylesheet' href='/css/productCreate.css')
+    body
+       div#wrapper
+           div#header Dodawanie nowych produktów
+           div#formContainer
+               form(method='POST' action='/productCreate')
+                   div.form-group
+                       input.form-control(type='text', placeholder='Nazwa produktu' name='productName')
+
+                   div.form-group(style='float:left; margin-left: 410px')
+                       select.form-control(name='componentList' required)
+                           option(value="" disabled selected hidden) Podzespoły
+                           each x in components
+                               option(value=x.ID_POZDESPOL) #{x.PROCESOR}, #{x.RAM}, #{x.HDD}, #{x.GPU}
+                   div(style='float:left; margin-left: 10px')
+                       button.btn(type='button', onclick="location.href='/'") Dodaj podzespoły
+                   div(style='clear:both')
+
+                   div.form-group(style='float:left; margin-left: 410px')
+                       select.form-control(name='producerList' required)
+                           option(value="" disabled selected hidden) Producent
+                           each x in producers
+                               option(value=x.ID_PRODUCENT) #{x.NAZWA}
+                   div(style='float:left; margin-left: 10px')
+                       button.btn(type='button', onclick="location.href='/'") Dodaj producenta
+                   div(style='clear: both')
+
+                   div.form-group
+                       button.btn(type='submit') Wyślij
