@@ -89,3 +89,50 @@ select:required:invalid {
 {
     background-color: #770202;
 }
+
+.lightbox
+{
+    position: fixed;
+    top: 0; left: 0;
+    right: 0; bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+.lightbox:before
+{
+    content: '';
+    display: block;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background: rgba(0,0,0,.7);
+}
+
+.lightbox__content
+{
+    min-width: 520px;
+    position: relative;
+    background: #fff;
+    color: #222;
+    padding: 15px;
+    border-radius: 2px;
+}
+.lightbox__header
+{
+    text-align: center;
+    font-family: 'Bodoni 72', serif;
+    font-weight: 100;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    font-size: 36px;
+}
+
+.lightbox__form-control
+{
+    width: 100%;
+    margin-bottom: 35px;
+}

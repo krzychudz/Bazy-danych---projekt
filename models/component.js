@@ -7,17 +7,19 @@ const componentModel = bookshelf.Model.extend(
     }
 );
 
-/*
+
 module.exports.create = (userApp) =>
 {
-    return new userModel(
+    return new componentModel(
         {
-            KOD_POCZTOWY: userApp.KOD_POCZTOWY,
-            MIEJSCOWOSC: userApp.MIEJSCOWOSC
+            PROCESOR: userApp.processor,
+            RAM: userApp.ram,
+            HDD: userApp.hdd,
+            GPU: userApp.gpu
         }
     ).save();
 };
-*/
+
 
 
 module.exports.getData = () =>

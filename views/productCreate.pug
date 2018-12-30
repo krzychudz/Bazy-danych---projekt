@@ -3,30 +3,68 @@ html
         title Produkt
         link(rel='stylesheet' href='/css/productCreate.css')
     body
-       div#wrapper
-           div#header Dodawanie nowych produktów
-           div#formContainer
-               form(method='POST' action='/productCreate')
-                   div.form-group
-                       input.form-control(type='text', placeholder='Nazwa produktu' name='productName')
+        .shop-app(data-lightbox=showLightbox)
+           div#wrapper
+               div#header Dodawanie nowych produktów
+               div#formContainer
+                   form(method='POST' action='/productCreate')
+                       div.form-group
+                           input.form-control(type='text', placeholder='Nazwa produktu' name='productName' required)
+                           if(errors && errors.productName)
+                               span(style = 'color:red; font-size: 12px')
+                                    p #{errors.productName.msg}
 
-                   div.form-group(style='float:left; margin-left: 410px')
-                       select.form-control(name='componentList' required)
-                           option(value="" disabled selected hidden) Podzespoły
-                           each x in components
-                               option(value=x.ID_POZDESPOL) #{x.PROCESOR}, #{x.RAM}, #{x.HDD}, #{x.GPU}
-                   div(style='float:left; margin-left: 10px')
-                       button.btn(type='button', onclick="location.href='/'") Dodaj podzespoły
-                   div(style='clear:both')
+                       div.form-group(style='float:left; margin-left: 410px')
+                           select.form-control(name='componentList' required)
+                               option(value='' disabled selected hidden) Podzespoły
+                               each x in components
+                                   option(value=x.ID_PODZESPOL) #{x.PROCESOR}, #{x.RAM}, #{x.HDD}, #{x.GPU}
+                       div(style='float:left; margin-left: 10px')
+                           button.btn(type='button', @click="formLightbox = true") Dodaj podzespoły
+                       div(style='clear:both')
 
-                   div.form-group(style='float:left; margin-left: 410px')
-                       select.form-control(name='producerList' required)
-                           option(value="" disabled selected hidden) Producent
-                           each x in producers
-                               option(value=x.ID_PRODUCENT) #{x.NAZWA}
-                   div(style='float:left; margin-left: 10px')
-                       button.btn(type='button', onclick="location.href='/'") Dodaj producenta
-                   div(style='clear: both')
+                       div.form-group(style='float:left; margin-left: 410px')
+                           select.form-control(name='producerList' required)
+                               option(value="" disabled selected hidden) Producent
+                               each x in producers
+                                   option(value=x.ID_PRODUCENT) #{x.NAZWA}
+                       div(style='float:left; margin-left: 10px')
+                           button.btn(type='button', @click="formLightbox1 = true") Dodaj producenta
+                       div(style='clear: both')
 
-                   div.form-group
-                       button.btn(type='submit') Wyślij
+                       if(formMessage.length)
+                           h4 #{formMessage}
+
+                       div.form-group
+                           button.btn(type='submit') Wyślij
+
+               .lightbox(v-show="formLightbox == true" style="display: none;")
+                   .lightbox__content
+                       h5 Nowy podzespół
+                       form.lightbox__form(action="/components" method="POST")
+                            .lightbox__form-control
+                                input.form-control(type='text', placeholder='Procesor' name='Processor' required)
+                            .lightbox__form-control
+                                input.form-control(type='text', placeholder='RAM' name='RAM' required)
+                            .lightbox__form-control
+                                input.form-control(type='text', placeholder='HDD' name='HDD' required)
+                            .lightbox__form-control
+                                input.form-control(type='text', placeholder='GPU' name='GPU' required)
+                            button.btn(type='button', @click="formLightbox = false") Anuluj
+                            button.btn(type='submit') Wyślij
+
+               .lightbox(v-show="formLightbox1 == true" style="display: none;")
+                   .lightbox__content
+                       h5 Nowy producent
+                       form.lightbox__form(action="/producers" method="POST")
+                           .lightbox__form-control
+                               input.form-control(type='text', placeholder='Nazwa' name='ProdName' required)
+                           .lightbox__form-control
+                               input.form-control(type='text', placeholder='Telefon' name='ProdTel' required)
+                           .lightbox__form-control
+                               input.form-control(type='text', placeholder='Adres' name='HDD' required)
+                           button.btn(type='button', @click="formLightbox1 = false") Anuluj
+                           button.btn(type='submit') Wyślij
+
+        script(src="https://cdn.jsdelivr.net/npm/vue" type="text/javascript")
+        script(src="/js/app.js")
