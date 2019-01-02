@@ -1,0 +1,15 @@
+html
+    head
+        title Magazyn
+        link(rel='stylesheet' href='/css/productCreate.css')
+    body
+        div#wrapper
+            div#header Magazyn
+            div#formContainer
+                form(method='GET' action='/storehouseData')
+                    div.form-group
+                        input.form-control(type='search', placeholder='szukaj', name='search')
+                    div.form-group
+                        button.btn(type='button', onclick="location.href='/'") Powrót
+                        button.btn(type='submit') Szukaj
+

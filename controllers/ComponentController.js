@@ -15,12 +15,12 @@ exports.store = (req, res) =>
         }
     ).then(function ()
     {
+        req.flash('statusCreateProduct','Podzespół został dodany do bazy dancyh!');
         res.redirect('/productCreate');
-        //req.flash('statusCreateProduct','Produkt został dodany do bazy dancyh!');
-        //res.redirect('/productCreate');
     }, function()
     {
-        //req.flash('statusCreateProduct','Niestety produkt nie został dodany do bazy danych!');
+        req.flash('statusCreateProduct','Podzespół nie został dodany do bazy danych!');
+        res.redirect('/productCreate');
     });
 
 };

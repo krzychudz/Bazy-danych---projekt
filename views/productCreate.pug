@@ -36,7 +36,9 @@ html
                            h4 #{formMessage}
 
                        div.form-group
+                           button.btn(type='button', onclick="location.href='/'") Powrót
                            button.btn(type='submit') Wyślij
+
 
                .lightbox(v-show="formLightbox == true" style="display: none;")
                    .lightbox__content
@@ -58,11 +60,16 @@ html
                        h5 Nowy producent
                        form.lightbox__form(action="/producers" method="POST")
                            .lightbox__form-control
-                               input.form-control(type='text', placeholder='Nazwa' name='ProdName' required)
+                               input.form-control(type='text' placeholder='Nazwa' name='ProdName' required)
                            .lightbox__form-control
-                               input.form-control(type='text', placeholder='Telefon' name='ProdTel' required)
+                               input.form-control(type='text' placeholder='Telefon' name='ProdTel' pattern="[0-9]{9}" required)
                            .lightbox__form-control
-                               input.form-control(type='text', placeholder='Adres' name='HDD' required)
+                               input.form-control(type='text' placeholder='Ulica' name='ProdStreet' required)
+                           .lightbox__form-control
+                               select.form-control(name='CityList' required)
+                                    option(value="" disabled selected hidden) Miasto
+                                    each x in cities
+                                        option(value=x.KOD_POCZTOWY) #{x.MIEJSCOWOSC}
                            button.btn(type='button', @click="formLightbox1 = false") Anuluj
                            button.btn(type='submit') Wyślij
 

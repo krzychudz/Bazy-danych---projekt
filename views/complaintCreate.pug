@@ -1,0 +1,27 @@
+html
+    head
+        title Reklamacje
+        link(rel='stylesheet' href='/css/productCreate.css')
+    body
+            div#wrapper
+                div#header Dodawanie nowych reklamacji
+                div#formContainer
+                    form(method='POST' action='/complaintCreate')
+                        div.form-group
+                            select.form-control(name='orderList' required)
+                                option(value='' disabled selected hidden) Zamowienie
+                                each x in orders
+                                    option(value=x.ID_ZAMOWIENIE) ID: #{x.ID_ZAMOWIENIE}
+
+                        div.form-group
+                            //input.form-control-info(type='textarea', placeholder='Info' name='complaintInfo' required)
+                            textarea.form-control-info(name="complaintInfo" rows="14" cols="10" wrap="soft" placeholder='Informacja o reklamacji' required)
+
+                        if(formMessage.length)
+                            div.form-group
+                                #{formMessage}
+
+                        div.form-group
+                            button.btn(type='button', onclick="location.href='/'") Powrót
+                            button.btn(type='submit') Wyślij
+
