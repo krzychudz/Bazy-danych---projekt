@@ -8,8 +8,35 @@ html
             div#formContainer
                 form(method='GET' action='/storehouseData')
                     div.form-group
-                        input.form-control(type='search', placeholder='szukaj', name='search')
+                        input.form-control(type='text', placeholder='Szukaj' name='searchPattern')
                     div.form-group
                         button.btn(type='button', onclick="location.href='/'") Powrót
                         button.btn(type='submit') Szukaj
+
+                    div.show-data
+                        if(data)
+                            if(data.length)
+                                table
+                                    tr
+                                        th LP
+                                        th ID
+                                        th Produkt
+                                        th Producent
+                                        th Procesor
+                                        th RAM
+                                        th HDD
+                                        th GPU
+
+                                        - for(let i = 0; i < data.length; i++)
+                                            tr
+                                                td #{i+1}
+                                                td #{data[i].IdProdukt}
+                                                td #{data[i].ProduktNazwa}
+                                                td #{data[i].ProducentNazwa}
+                                                td #{data[i].PodzespolProcesor}
+                                                td #{data[i].PodzespolRAM}
+                                                td #{data[i].PodzespolHDD}
+                                                td #{data[i].PodzespolGPU}
+                            else
+                                h2 Brak dopasowania do wzorca
 

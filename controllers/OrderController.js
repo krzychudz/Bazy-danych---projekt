@@ -35,12 +35,24 @@ exports.store = (req, res) =>
 
             }, function()
             {
+
                 req.flash('statusOrder','Zamówienie nie zostało dodane do bazy dancyh!');
                 res.redirect('/orderCreate');
+
+            }).catch(()=>{
+
+                req.flash('statusOrder','Zamówienie nie zostało dodane do bazy dancyh!');
+                res.redirect('/orderCreate');
+
             });
         }
         else
         {
+
+
+            console.log(knex('DOSTAWY').where({
+                ID_PRODUKT: req.body.productList,
+            }).select('DATA').toString());
 
             knex('DOSTAWY').where({
                 ID_PRODUKT: req.body.productList,
@@ -51,8 +63,15 @@ exports.store = (req, res) =>
                 res.redirect('/orderCreate');
 
             }, () => {
+
                 req.flash('statusOrder','Zbyt mała ilość produktu w magazynie! Pozostało ' + rows[0].ILOSC);
                 res.redirect('/orderCreate');
+
+            }).catch(()=>{
+
+                req.flash('statusOrder','Zbyt mała ilość produktu w magazynie! Pozostało ' + rows[0].ILOSC);
+                res.redirect('/orderCreate');
+
             });
 
         }
