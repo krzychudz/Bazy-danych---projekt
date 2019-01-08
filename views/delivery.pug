@@ -1,0 +1,64 @@
+html
+    head
+        title Dostawy
+        link(rel='stylesheet' href='/css/delivery.css')
+    body
+        div#wrapper
+            div#header Dostawy
+            div#formContainer
+                form(method='GET' action='/deliveryData')
+                    fieldset#sortContainer
+                        legend Sortowanie
+                        div.sortItem
+                            select.form-control(name='sort' required)
+                                option(value='NoneDate' selected) Brak sortowania
+                                option(value='DateR') Data - rosnąco
+                                option(value='DateM') Data - malejąco
+                                option(value='PriceR') Cena - rosnąco
+                                option(value='PriceM') Cena - malejąco
+
+                    fieldset#filterContainer
+                        legend Filtrowanie
+                        div.sortItem
+                            input.form-control(type = 'text', name='Amount', placeholder='Ilość - więcej niż' max=500)
+                        div.sortItem
+                            input.form-control(type = 'text', name='NameProduct', placeholder='Nazwa - produkt')
+                        div.sortItem
+                            input.form-control(type = 'text', name='NameProducer', placeholder='Nazwa - producent')
+                        div.sortItem-Date(style="float:left;")
+                            input.form-control-noAnim(type = 'date', name='DateFrom', placeholder='Data - Od')
+                        div.sortItem-Date(style="float:left;")
+                            input.form-control-noAnim(type = 'date', name='DateTo', placeholder='Data - Do')
+                        div(style="clear:both;")
+
+                    div(style="clear:both;")
+
+                    div#buttonHolder
+                        button.btn(type='button', onclick="location.href='/'") Powrót
+                        button.btn(type='submit') Szukaj
+
+
+                div.show-data
+                    if(data)
+                        if(data.length)
+                            table
+                                tr
+                                    th LP
+                                    th ID
+                                    th Produkt
+                                    th Cena
+                                    th Producent
+                                    th Ilość
+                                    th Data
+
+                                    - for(let i = 0; i < data.length; i++)
+                                        tr
+                                            td #{i + 1}
+                                            td #{data[i].IdProdukt}
+                                            td #{data[i].ProduktNazwa}
+                                            td #{data[i].ProduktCena}
+                                            td #{data[i].ProducentNazwa}
+                                            td #{data[i].Ilosc}
+                                            td #{data[i].DostawaData}
+                        else
+                            h2 Brak danych które spełniają podane kryteria

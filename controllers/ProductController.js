@@ -10,6 +10,7 @@ exports.store = (req, res) =>
     const Product = product.create(
         {
             'productName': req.body.productName,
+            'productPrice': req.body.productPrice,
             'ID_PRODUCENT': req.body.producerList,
             'ID_PODZESPOL': req.body.componentList
         }
@@ -17,9 +18,9 @@ exports.store = (req, res) =>
     {
 
         knex('PRODUKT').where({
-            NAZWA: req.body.productName,
-            ID_PRODUCENT: req.body.producerList,
-            ID_PODZESPOL: req.body.componentList
+            NAZWA: req.body.productName
+            //ID_PRODUCENT: req.body.producerList,
+            //ID_PODZESPOL: req.body.componentList
         }).select('ID_PRODUKT').then((rows)=> {
 
             const Storehouse = storehouse.create(

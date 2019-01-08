@@ -21,22 +21,26 @@ html
                                         th LP
                                         th ID
                                         th Produkt
+                                        th Cena
                                         th Producent
                                         th Procesor
                                         th RAM
                                         th HDD
                                         th GPU
+                                        th Ilość
 
                                         - for(let i = 0; i < data.length; i++)
                                             tr
                                                 td #{i+1}
                                                 td #{data[i].IdProdukt}
                                                 td #{data[i].ProduktNazwa}
+                                                td #{data[i].ProduktCena}
                                                 td #{data[i].ProducentNazwa}
                                                 td #{data[i].PodzespolProcesor}
                                                 td #{data[i].PodzespolRAM}
                                                 td #{data[i].PodzespolHDD}
                                                 td #{data[i].PodzespolGPU}
+                                                td #{data[i].Ilosc}
                             else
                                 h2 Brak dopasowania do wzorca
 

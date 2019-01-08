@@ -17,6 +17,11 @@ exports.storehouse = (req, res) =>
     res.render('storehouse');
 };
 
+exports.delivery = (req,res) =>
+{
+    res.render('delivery');
+};
+
 
 exports.complaintCreate = (req, res) =>
 {
@@ -41,8 +46,6 @@ exports.orderCreate = (req, res) =>
         {
             var data2 = cities.getData().then(function (citiesData) {
 
-                console.log(customerData.serialize());
-
                 res.render('orderCreate',
                     {
                         customers: customerData.serialize(),
@@ -58,7 +61,7 @@ exports.orderCreate = (req, res) =>
     });
 
 
-}
+};
 
 
 exports.productCreate = (req, res) =>
@@ -87,4 +90,4 @@ exports.productCreate = (req, res) =>
 
     });
 
-}
+};

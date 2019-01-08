@@ -15,6 +15,7 @@ module.exports.create = (productData) =>
     return new productModel(
         {
             NAZWA: productData.productName,
+            CENA: productData.productPrice,
             ID_PODZESPOL: productData.ID_PODZESPOL,
             ID_PRODUCENT: productData.ID_PRODUCENT
         }

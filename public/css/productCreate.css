@@ -84,7 +84,7 @@ table, th, td
 
 .form-control:hover
 {
-    width: 500px;
+    width: 350px;
 }
 
 
@@ -118,7 +118,7 @@ table, th, td
 
 .form-control:focus
  {
-     width: 500px;
+     width: 350px;
  }
 
 .buttonSubmit
