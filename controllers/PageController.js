@@ -23,6 +23,37 @@ exports.delivery = (req,res) =>
 };
 
 
+exports.orderShowEdit = (req,res) =>
+{
+        res.render('orderShowEdit', {
+            formMessage: req.flash('orderEditStatus')
+        });
+
+};
+
+exports.productShowEdit = (req, res) =>
+{
+    var data = component.getData().then(function (componentData) {
+
+        var data1 = producer.getData().then(function (producerData) {
+
+            module.exports.componentList = componentData.serialize();
+            module.exports.producerList = producerData.serialize();
+
+            res.render('productShowEdit',
+                {
+                    components: componentData.serialize(),
+                    producers: producerData.serialize(),
+                    formMessage: req.flash('productDelStatus')
+                });
+
+        });
+
+    });
+
+};
+
+
 exports.complaintCreate = (req, res) =>
 {
     var data = order.getData().then(function(productData)
@@ -32,6 +63,29 @@ exports.complaintCreate = (req, res) =>
                 orders: productData.serialize(),
                 formMessage: req.flash('statusComplaint')
             });
+    });
+
+};
+
+exports.complaintShowEdit = (req, res) =>
+{
+    res.render('complaintShowEdit',{
+        formMessage: req.flash('complaintEditStatus')
+    });
+};
+
+exports.customerShowEdit = (req, res) =>
+{
+    var data2 = cities.getData().then(function (citiesData) {
+
+        module.exports.cityList = citiesData.serialize();
+
+        res.render('customersShowEdit', {
+            formMessage: req.flash('customersEditStatus'),
+            cities: citiesData.serialize()
+        });
+
+
     });
 
 };

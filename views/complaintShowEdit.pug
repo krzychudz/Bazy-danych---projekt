@@ -1,0 +1,125 @@
+html
+    head
+        title Reklamacje
+        link(rel='stylesheet' href='/css/productCreate.css')
+        link(rel='stylesheet' href='/css/fontello.css')
+
+        script.
+            function getIDtoEdit(clickedID) {
+                let split = clickedID.split(" ");
+                document.getElementById("ComplaintID_Edit").value = split[1];
+
+                let Info = document.getElementById('Info ' + split[1]).innerText;
+                document.getElementById("ComplaintInfo").value = Info;
+
+            };
+
+            function getIDtoFinish(clickedID) {
+                let split = clickedID.split(" ");
+                document.getElementById("ComplaintID_Finish").value = split[1];
+
+            }
+
+            function delByID(clickedID) {
+                console.log(clickedID);
+                let split = clickedID.split(" ");
+                document.getElementById("ComplaintID_Del").value = split[1];
+            };
+
+
+    body
+        .shop-app(data-lightbox=showLightbox)
+            div#wrapper
+                div#header
+                    h2 Przeglądanie oraz edycja reklamacji
+                div#formContainer
+                    form(method='GET' action='/api/complaintData')
+                        div.form-group
+                            input.form-control(type = 'text' name = 'searchPattern' placeholder='szukaj')
+                        div.form-group
+                            button.btn(type='button', onclick="location.href='/'") Powrót
+                            button.btn(type='submit') Szukaj
+
+                        if(formMessage.length)
+                            h4 #{formMessage}
+
+                        div.show-data
+                            if(data)
+                                if(data.length)
+                                    table
+                                        tr
+                                            th LP
+                                            th Data - start
+                                            th Data - koniec
+                                            th Info
+                                            th Produkt
+                                            th Imię
+                                            th Nazwisko
+                                            th Status
+                                            th Akcja
+
+                                            - for(let i = 0; i < data.length; i++)
+                                                tr
+                                                    td #{i + 1}
+                                                    td #{data[i].ReklamacjaDataStart}
+                                                    td #{data[i].ReklamacjaDataKoniec}
+                                                    td(id = "Info " + data[i].ReklamacjaID) #{data[i].ReklamacjaInfo}
+                                                    td #{data[i].ProduktNazwa}
+                                                    td #{data[i].KlientImie}
+                                                    td #{data[i].KlientNazwisko}
+                                                    td #{data[i].ReklamacjaStatus}
+                                                    td
+                                                        if(data[i].ReklamacjaStatus != "ZAMKNIĘTA")
+                                                            i.icon-pencil-1(id = 'Edit ' + data[i].ReklamacjaID, onclick="getIDtoEdit(this.id)", @click="formLightbox = true")
+                                                            i.icon-ok(id = 'Finish ' + data[i].ReklamacjaID, onclick="getIDtoFinish(this.id)", @click="formLightbox1 = true")
+                                                            i.icon-trash(id = 'Del ' + data[i].ReklamacjaID, onclick="delByID(this.id)", @click="formLightbox2 = true")
+                                                            div(style="clear:both;")
+                                                        else
+                                                            |-
+                                else
+                                    h2 Brak dopasowania do wzorca
+
+
+                .lightbox(v-show="formLightbox == true" style="display: none;")
+                    .lightbox__content
+                        h5 Edytuj reklamacje
+                        form.lightbox__form(action="/api/complaint?_method=PUT" method="POST")
+                            .lightbox__form-control
+                                input.form-control(type='text', placeholder='ID' name='ComplaintID_Edit' id = 'ComplaintID_Edit' readonly hidden)
+
+                            .lightbox__form-control
+                                textarea.form-control-info(name="ComplaintInfo" id="ComplaintInfo" rows="14" cols="10" wrap="soft" placeholder='Informacja o reklamacji' required)
+
+
+                            button.btn(type='button', @click="formLightbox = false") Anuluj
+                            button.btn(type='submit') Wyślij
+
+                .lightbox(v-show="formLightbox1 == true" style="display: none;")
+                    .lightbox__content
+                        h4 Czy chcesz zakończyć tę reklamację?
+                        h5 Tej operacji nie będzie można cofnąć!
+
+                        form.lightbox__form(action="/api/complaintFin?_method=PUT" method="POST")
+                            .lightbox__form-control
+                                input.form-control(type='text', placeholder='ID' name='ComplaintID_Finish' id = 'ComplaintID_Finish' readonly hidden)
+
+                            button.btn(type='button', @click="formLightbox1 = false") Anuluj
+                            button.btn(type='submit') Wyślij
+
+
+                .lightbox(v-show="formLightbox2 == true" style="display: none;")
+                    .lightbox__content
+                        h4 Czy chcesz usunąć tę reklamację?
+                        h5 Tej operacji nie będzie można cofnąć!
+
+                        form.lightbox__form(action="/api/complaintDel?_method=DELETE" method="POST")
+                            .lightbox__form-control
+                                input.form-control(type='text', placeholder='ID' name='ComplaintID_Del' id = 'ComplaintID_Del' readonly hidden)
+
+                            button.btn(type='button', @click="formLightbox2 = false") Anuluj
+                            button.btn(type='submit') Wyślij
+
+
+
+        script(src="https://cdn.jsdelivr.net/npm/vue" type="text/javascript")
+        script(src="/js/app.js")

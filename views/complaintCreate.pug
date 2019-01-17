@@ -4,9 +4,10 @@ html
         link(rel='stylesheet' href='/css/productCreate.css')
     body
             div#wrapper
-                div#header Dodawanie nowych reklamacji
+                div#header
+                    h2 Dodawanie nowych reklamacji
                 div#formContainer
-                    form(method='POST' action='/complaintCreate')
+                    form(method='POST' action='/api/complaintCreate')
                         div.form-group
                             select.form-control(name='orderList' required)
                                 option(value='' disabled selected hidden) Zamowienie
@@ -15,11 +16,11 @@ html
 
                         div.form-group
                             //input.form-control-info(type='textarea', placeholder='Info' name='complaintInfo' required)
-                            textarea.form-control-info(name="complaintInfo" rows="14" cols="10" wrap="soft" placeholder='Informacja o reklamacji' required)
+                            textarea.form-control-info(name="complaintInfo" rows="14" cols="10" wrap="soft" placeholder='Informacja o reklamacji'
+                            maxlength="255"  required)
 
                         if(formMessage.length)
-                            div.form-group
-                                #{formMessage}
+                            h4 #{formMessage}
 
                         div.form-group
                             button.btn(type='button', onclick="location.href='/'") Powrót

@@ -1,15 +1,50 @@
 html
     head
         title Magazyn
-        link(rel='stylesheet' href='/css/productCreate.css')
+        link(rel='stylesheet' href='/css/delivery.css')
+
+        script(src="http://code.jquery.com/jquery-1.9.1.js")
+
+        script.
+            jQuery(document).ready(function ($) {
+                op = function (obj) {
+                    $(obj).stop().slideToggle();
+                };
+            });
+
+
     body
         div#wrapper
-            div#header Magazyn
+            div#header
+                h2 Magazyn
+                div(style="text-align: center")
+                    a(href="#" onClick="op('#search')") Sortowanie i filtrowanie
             div#formContainer
-                form(method='GET' action='/storehouseData')
-                    div.form-group
-                        input.form-control(type='text', placeholder='Szukaj' name='searchPattern')
-                    div.form-group
+                form(method='GET' action='/api/storehouseData')
+                    div.serachDiv(id = "search")
+                        fieldset#sortContainer
+                            legend Sortowanie
+                            div.sortItem
+                                select.form-control(name='sort' required)
+                                    option(value='NoneDate' selected) Brak sortowania
+                                    option(value='PriceR') Cena - rosnąco
+                                    option(value='PriceM') Cena - malejąco
+                                    option(value='AmountR') Ilość - rosnąco
+                                    option(value='AmountM') Ilość - malejąco
+
+                        fieldset#filterContainer
+                            legend Filtrowanie
+                            div.sortItem
+                                input.form-control(type = 'number', name='Amount', placeholder='Ilość - więcej niż' min ='1' max='99999')
+                            div.sortItem
+                                input.form-control(type = 'text', name='NameProduct', placeholder='Nazwa - produkt')
+                            div.sortItem
+                                input.form-control(type = 'text', name='NameProducer', placeholder='Nazwa - producent')
+                            div.sortItem
+                                input.form-control(type = 'text', name='Component', placeholder='Podzespół')
+                            div(style="clear:both;")
+
+                    div(style="clear:both;")
                         button.btn(type='button', onclick="location.href='/'") Powrót
                         button.btn(type='submit') Szukaj
 

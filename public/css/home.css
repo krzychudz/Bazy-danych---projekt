@@ -15,7 +15,7 @@ body
 #header
 {
     width:  100%;
-    padding: 40px 0;
+    padding: 20px 0px;
     text-align: center;
 }
 
@@ -43,8 +43,9 @@ body
     width: 1000px;
     margin-left: auto;
     margin-right: auto;
-    text-align: center;
+    text-align: justify;
     padding-top: 10px;
+    text-align: center;
 }
 
 ol

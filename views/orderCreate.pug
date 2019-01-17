@@ -1,13 +1,14 @@
 html
     head
-        title Produkt
+        title Zamówienia
         link(rel='stylesheet' href='/css/productCreate.css')
     body
         .shop-app(data-lightbox=showLightbox)
             div#wrapper
-                div#header Dodawanie nowych zamówień
+                div#header
+                    h2 Dodawanie nowych zamówień
                 div#formContainer
-                    form(method='POST' action='/orderCreate')
+                    form(method='POST' action='/api/orderCreate')
                         div.form-group
                             select.form-control(name='productList' required)
                                 option(value='' disabled selected hidden) Produkt
@@ -24,13 +25,13 @@ html
                         div(style='clear: both')
 
                         div.form-group
-                            input.form-control(type='text', placeholder='Ilość' name='OrderAmount' pattern="[0-9]" required)
+                            input.form-control(type='number', placeholder='Ilość' name='OrderAmount' min = "1" max = "9999" required)
 
                         div.form-group
                             input.date-control(type='date', placeholder='Data' name='OrderDateStart' required)
 
                         div.form-group
-                            input.date-control(type='date', placeholder='Data' name='OrderDateEnd' required)
+                            input.date-control(type='date', placeholder='Data' name='OrderDateEnd')
 
                         if(formMessage.length)
                             h4 #{formMessage}
@@ -42,16 +43,19 @@ html
 
                     .lightbox(v-show="formLightbox == true" style="display: none;")
                         .lightbox__content
-                            h5 Nowy klient
-                            form.lightbox__form(action="/customers" method="POST")
+                            h4 Nowy klient
+                            form.lightbox__form(action="/api/customers" method="POST")
                                 .lightbox__form-control
-                                    input.form-control(type='text', placeholder='Imię' name='CustomerFirstname' required)
+                                    input.form-control(type='text', placeholder='Imię' name='CustomerFirstname' pattern="[A-Za-z]{1,20}"
+                                    title = "Imię może zawierać jedynie litery" required)
                                 .lightbox__form-control
-                                    input.form-control(type='text', placeholder='Nazwisko' name='CustomerLastname' required)
+                                    input.form-control(type='text', placeholder='Nazwisko' name='CustomerLastname' pattern="[A-Za-z]{1,20}"
+                                    title = "Nazwisko może zawierać jedynie litery" required)
                                 .lightbox__form-control
-                                    input.form-control(type='text', placeholder='Telefon' name='CustomerTel' pattern="[0-9]{9}" required)
+                                    input.form-control(type='text', placeholder='Telefon' name='CustomerTel' pattern="[0-9]{9}"
+                                    title = "Numer telefonu musi zawierać 9 cyfr" required)
                                 .lightbox__form-control
-                                    input.form-control(type='text', placeholder='Ulica' name='CustomerStreet' required)
+                                    input.form-control(type='text', placeholder='Ulica' name='CustomerStreet' maxlength="99" required)
                                 .lightbox__form-control
                                     select.form-control(name='CityList' required)
                                         option(value="" disabled selected hidden) Miasto

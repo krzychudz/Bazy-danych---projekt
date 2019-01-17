@@ -2,34 +2,50 @@ html
     head
         title Dostawy
         link(rel='stylesheet' href='/css/delivery.css')
+        script(src="http://code.jquery.com/jquery-1.9.1.js")
+
+        script.
+            jQuery(document).ready(function($) {
+                op = function (obj) {
+                    $(obj).stop().slideToggle();
+                };
+            });
+
+
+
+
     body
         div#wrapper
-            div#header Dostawy
+            div#header
+                h2 Dostawy
+                div(style="text-align: center")
+                    a(href="#" onClick="op('#search')") Sortowanie i filtrowanie
             div#formContainer
-                form(method='GET' action='/deliveryData')
-                    fieldset#sortContainer
-                        legend Sortowanie
-                        div.sortItem
-                            select.form-control(name='sort' required)
-                                option(value='NoneDate' selected) Brak sortowania
-                                option(value='DateR') Data - rosnąco
-                                option(value='DateM') Data - malejąco
-                                option(value='PriceR') Cena - rosnąco
-                                option(value='PriceM') Cena - malejąco
+                form(method='GET' action='/api/deliveryData')
+                    div.serachDiv(id = "search")
+                        fieldset#sortContainer
+                            legend Sortowanie
+                            div.sortItem
+                                select.form-control(name='sort' required)
+                                    option(value='NoneDate' selected) Brak sortowania
+                                    option(value='DateR') Data - rosnąco
+                                    option(value='DateM') Data - malejąco
+                                    option(value='PriceR') Cena - rosnąco
+                                    option(value='PriceM') Cena - malejąco
 
-                    fieldset#filterContainer
-                        legend Filtrowanie
-                        div.sortItem
-                            input.form-control(type = 'text', name='Amount', placeholder='Ilość - więcej niż' max=500)
-                        div.sortItem
-                            input.form-control(type = 'text', name='NameProduct', placeholder='Nazwa - produkt')
-                        div.sortItem
-                            input.form-control(type = 'text', name='NameProducer', placeholder='Nazwa - producent')
-                        div.sortItem-Date(style="float:left;")
-                            input.form-control-noAnim(type = 'date', name='DateFrom', placeholder='Data - Od')
-                        div.sortItem-Date(style="float:left;")
-                            input.form-control-noAnim(type = 'date', name='DateTo', placeholder='Data - Do')
-                        div(style="clear:both;")
+                        fieldset#filterContainer
+                            legend Filtrowanie
+                            div.sortItem
+                                input.form-control(type = 'number', name='Amount', placeholder='Ilość - więcej niż' min='1' max = '99999')
+                            div.sortItem
+                                input.form-control(type = 'text', name='NameProduct', placeholder='Nazwa - produkt')
+                            div.sortItem
+                                input.form-control(type = 'text', name='NameProducer', placeholder='Nazwa - producent')
+                            div.sortItem-Date(style="float:left;")
+                                input.form-control-noAnim(type = 'date', name='DateFrom', placeholder='Data - Od')
+                            div.sortItem-Date(style="float:left;")
+                                input.form-control-noAnim(type = 'date', name='DateTo', placeholder='Data - Do')
+                            div(style="clear:both;")
 
                     div(style="clear:both;")
 

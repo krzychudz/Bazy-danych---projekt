@@ -60,16 +60,25 @@ exports.getData = (req, res) =>
             'DOSTAWY.DATA as DostawaData')
         .then((rows)=>{
 
-            if(rows != [])
+            for(let i = 0; i < rows.length; i++) {
+                let month = rows[i].DostawaData.getMonth() + 1;
+                let day = rows[i].DostawaData.getDate();
+
+                if (month < 10)
+                    month = '0' + month;
+
+                if (day < 10)
+                    day = '0' + day;
+
+                rows[i].DostawaData = rows[i].DostawaData.getFullYear() + '/' + month + '/' + day;
+
+            }
+
                 res.render('delivery',
                     {
                         data: rows
                     });
-            else
-                res.render('delivery',
-                    {
-                        data: rows
-                    });
+
         },(err)=>{
             console.log(err.toString());
         });

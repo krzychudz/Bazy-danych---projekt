@@ -1,0 +1,119 @@
+html
+    head
+        title Produkty
+        link(rel='stylesheet' href='/css/productCreate.css')
+        link(rel='stylesheet' href='/css/fontello.css')
+
+        script.
+            function getIDtoEdit(clickedID) {
+                let split = clickedID.split(" ");
+                document.getElementById("ProductID").value = split[1];
+
+                let Name = document.getElementById('Name ' + split[1]).innerText;
+                document.getElementById("ProductName").value = Name;
+
+                let Price = document.getElementById('Price ' + split[1]).innerText;
+                document.getElementById("ProductPrice").value = Price;
+
+            };
+
+            function delByID(clickedID) {
+                let split = clickedID.split(" ");
+                document.getElementById("ProductID_DEL").value = split[1];
+            };
+
+
+    body
+        .shop-app(data-lightbox=showLightbox)
+            div#wrapper
+                div#header
+                    h2 Przeglądanie oraz edycja produktów
+                div#formContainer
+                    form(method='GET' action='/api/productData')
+                        div.form-group
+                            input.form-control(type = 'text' name = 'searchPattern' placeholder='szukaj')
+                        div.form-group
+                            button.btn(type='button', onclick="location.href='/'") Powrót
+                            button.btn(type='submit') Szukaj
+
+                        if(formMessage.length)
+                            h4 #{formMessage}
+
+                        div.show-data
+                            if(data)
+                                if(data.length)
+                                    table(id='DataTable')
+                                        tr
+                                            th LP
+                                            th ID
+                                            th Produkt
+                                            th Cena
+                                            th Producent
+                                            th Procesor
+                                            th RAM
+                                            th HDD
+                                            th GPU
+                                            th Akcja
+
+                                            - for(let i = 0; i < data.length; i++)
+                                                tr
+                                                    td #{i + 1}
+                                                    td #{data[i].IdProdukt}
+                                                    td(id = 'Name ' + data[i].IdProdukt) #{data[i].ProduktNazwa}
+                                                    td(id = 'Price ' + data[i].IdProdukt) #{data[i].ProduktCena}
+                                                    td #{data[i].ProducentNazwa}
+                                                    td #{data[i].PodzespolProcesor}
+                                                    td #{data[i].PodzespolRAM}
+                                                    td #{data[i].PodzespolHDD}
+                                                    td #{data[i].PodzespolGPU}
+                                                    td
+                                                        i.icon-pencil-1(onclick="getIDtoEdit(this.id)",@click="formLightbox = true", id ='Edit ' + data[i].IdProdukt)
+                                                        i.icon-trash(id ='Del ' + data[i].IdProdukt, onclick='delByID(this.id)' ,@click="formLightbox1 = true")
+                                                        div(style="clear:both;")
+                                else
+                                    h2 Brak dopasowania do wzorca
+
+
+                .lightbox(v-show="formLightbox == true" style="display: none;")
+                    .lightbox__content
+                        h5 Edytuj produkt
+                        form.lightbox__form(action="/api/product?_method=PUT" method="POST")
+                            .lightbox__form-control
+                                input.form-control(type='text', placeholder='ID' name='ProductID' id = 'ProductID' readonly hidden)
+                            .lightbox__form-control
+                                input.form-control(type='text', placeholder='Nazwa' name='ProductName' id = 'ProductName' required)
+                            .lightbox__form-control
+                                select.form-control(name='componentList')
+                                    option(value='' disabled selected hidden) Podzespoły
+                                    each x in components
+                                        option(value=x.ID_PODZESPOL) #{x.PROCESOR}, #{x.RAM}, #{x.HDD}, #{x.GPU}
+
+                            .lightbox__form-control
+                                select.form-control(name='producerList')
+                                    option(value='' disabled selected hidden) Producent
+                                    each x in producers
+                                        option(value=x.ID_PRODUCENT) #{x.NAZWA}
+
+                            .lightbox__form-control
+                                input.form-control(type='number', placeholder='Cena', name='ProductPrice', id ='ProductPrice' min="1" max ="99999" required)
+
+                            button.btn(type='button', @click="formLightbox = false") Anuluj
+                            button.btn(type='submit') Wyślij
+
+
+
+
+                .lightbox(v-show="formLightbox1 == true" style="display: none;")
+                    .lightbox__content
+                        h4 Czy na pewno chcesz usunąć ten produkt?
+                        h5 Tej operacji nie będzie można cofnąć!
+                        form.lightbox__form(action="/api/product?_method=DELETE" method="POST")
+                            .lightbox__form-control
+                                input.form-control(type='text', placeholder='ID' name='ProductID_DEL' id = 'ProductID_DEL' readonly hidden)
+
+                            button.btn(type='button', @click="formLightbox1 = false") Anuluj
+                            button.btn(type='submit') Usuń
+
+
+        script(src="https://cdn.jsdelivr.net/npm/vue" type="text/javascript")
+        script(src="/js/app.js")

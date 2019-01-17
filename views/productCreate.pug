@@ -5,17 +5,18 @@ html
     body
         .shop-app(data-lightbox=showLightbox)
            div#wrapper
-               div#header Dodawanie nowych produktów
+               div#header
+                h2 Dodawanie nowych produktów
                div#formContainer
-                   form(method='POST' action='/productCreate')
+                   form(method='POST' action='/api/productCreate')
                        div.form-group
-                           input.form-control(type='text', placeholder='Nazwa produktu' name='productName' required)
+                           input.form-control(type='text', placeholder='Nazwa produktu' name='productName' maxlength="20" required)
                            if(errors && errors.productName)
                                span(style = 'color:red; font-size: 12px')
                                     p #{errors.productName.msg}
 
                        div.form-group
-                           input.form-control(type='text', placeholder='Cena' name='productPrice' required)
+                           input.form-control(type='number', placeholder='Cena' name='productPrice' min = "1" max = "99999"  required)
 
                        div.form-group(style='float:left; margin-left: 410px')
                            select.form-control(name='componentList' required)
@@ -45,29 +46,30 @@ html
 
                .lightbox(v-show="formLightbox == true" style="display: none;")
                    .lightbox__content
-                       h5 Nowy podzespół
-                       form.lightbox__form(action="/components" method="POST")
+                       h4 Nowy podzespół
+                       form.lightbox__form(action="/api/components" method="POST")
                             .lightbox__form-control
-                                input.form-control(type='text', placeholder='Procesor' name='Processor' required)
+                                input.form-control(type='text', placeholder='Procesor' name='Processor' maxlength="255"  required)
                             .lightbox__form-control
-                                input.form-control(type='text', placeholder='RAM' name='RAM' required)
+                                input.form-control(type='text', placeholder='RAM' name='RAM' maxlength="255" required)
                             .lightbox__form-control
-                                input.form-control(type='text', placeholder='HDD' name='HDD' required)
+                                input.form-control(type='text', placeholder='HDD' name='HDD' maxlength="255" required)
                             .lightbox__form-control
-                                input.form-control(type='text', placeholder='GPU' name='GPU' required)
+                                input.form-control(type='text', placeholder='GPU' name='GPU' maxlength="255" required)
                             button.btn(type='button', @click="formLightbox = false") Anuluj
                             button.btn(type='submit') Wyślij
 
                .lightbox(v-show="formLightbox1 == true" style="display: none;")
                    .lightbox__content
-                       h5 Nowy producent
-                       form.lightbox__form(action="/producers" method="POST")
+                       h4 Nowy producent
+                       form.lightbox__form(action="/api/producers" method="POST")
                            .lightbox__form-control
-                               input.form-control(type='text' placeholder='Nazwa' name='ProdName' required)
+                               input.form-control(type='text' placeholder='Nazwa' name='ProdName' maxlength="255" required)
                            .lightbox__form-control
-                               input.form-control(type='text' placeholder='Telefon' name='ProdTel' pattern="[0-9]{9}" required)
+                               input.form-control(type='text' placeholder='Telefon' name='ProdTel' pattern="[0-9]{9}"
+                               title = "Numer telefonu musi zawierać 9 cyfr" required)
                            .lightbox__form-control
-                               input.form-control(type='text' placeholder='Ulica' name='ProdStreet' required)
+                               input.form-control(type='text' placeholder='Ulica' name='ProdStreet' maxlength="90" required)
                            .lightbox__form-control
                                select.form-control(name='CityList' required)
                                     option(value="" disabled selected hidden) Miasto

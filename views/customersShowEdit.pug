@@ -1,0 +1,192 @@
+html
+    head
+        title Klienci
+        link(rel='stylesheet' href='/css/customerShowEdit.css')
+        link(rel='stylesheet' href='/css/fontello.css')
+
+        script.
+            function getIDtoEdit(clickedID) {
+                let split = clickedID.split(" ");
+                document.getElementById("CustomerID_Edit").value = split[1];
+
+                let Name = document.getElementById('Name ' + split[1]).innerText;
+                document.getElementById("CustomerName_EDIT").value = Name;
+
+                let Surname = document.getElementById('Surname ' + split[1]).innerText;
+                document.getElementById("CustomerSurname_EDIT").value = Surname;
+
+                let Tel = document.getElementById('Tel ' + split[1]).innerText;
+                document.getElementById("CustomerTel_EDIT").value = Tel;
+
+                let Street = document.getElementById('Adr ' + split[1]).innerText;
+                document.getElementById("CustomerStreet_EDIT").value = Street;
+
+            };
+
+            function getIDtoForm(clickedID) {
+                let split = clickedID.split(" ");
+                document.getElementById("CustomerID_Summary").value = split[1];
+
+            }
+
+            function delByID(clickedID) {
+                console.log(clickedID);
+                let split = clickedID.split(" ");
+                document.getElementById("CustomerID_Del").value = split[1];
+            };
+
+
+
+    body
+        .shop-app(data-lightbox=showLightbox)
+            div#wrapper
+                div#header
+                    h2 Przeglądanie oraz edycja klientów
+                div#formContainer
+                    form(method='GET' action='/api/customersData')
+                        div.form-group
+                            input.form-control(type = 'text' name = 'searchPattern' placeholder='szukaj')
+                        div.form-group
+                            button.btn(type='button', onclick="location.href='/'") Powrót
+                            button.btn(type='submit') Szukaj
+
+
+                        if(formMessage.length)
+                            h4 #{formMessage}
+
+                        div.show-data
+                            if(data)
+                                if(data.length)
+                                    table
+                                        tr
+                                            th LP
+                                            th Imię
+                                            th Nazwisko
+                                            th Telefon
+                                            th Ulica
+                                            th Kod pocztowy
+                                            th Miasto
+                                            th Akcja
+                                            - for(let i = 0; i < data.length; i++)
+                                                tr
+                                                    td #{i + 1}
+                                                    td(id = 'Name ' + data[i].KlientID) #{data[i].KlientImie}
+                                                    td(id = 'Surname ' + data[i].KlientID) #{data[i].KlientNazwisko}
+                                                    td(id = 'Tel ' + data[i].KlientID) #{data[i].KlientTelefon}
+                                                    td(id = 'Adr ' + data[i].KlientID) #{data[i].AdresUlica}
+                                                    td #{data[i].AdresKP}
+                                                    td(id = 'City ' + data[i].KlientID) #{data[i].AdresMiasto}
+                                                    td
+                                                        i.icon-pencil-1(id = 'Edit ' + data[i].KlientID,onclick="getIDtoEdit(this.id)", @click="formLightbox = true")
+                                                        i.icon-wpforms(id = 'Form ' + data[i].KlientID, onclick="getIDtoForm(this.id)", @click="formLightbox1 = true")
+                                                        i.icon-trash(id = 'Del ' + data[i].KlientID,    onclick="delByID(this.id)",     @click="formLightbox2 = true")
+                                                        div(style="clear:both;")
+
+                                else
+                                    h4 Brak dopasowania do wzorca
+
+
+                .lightbox(v-show="formLightbox == true" style="display: none;")
+                    .lightbox__content
+                        h4 Edytuj klienta
+                        form.lightbox__form(action="/api/customer?_method=PUT" method="POST")
+                            .lightbox__form-control
+                                input.form-control(type='text', placeholder='ID' name='CustomerID_Edit' id = 'CustomerID_Edit' readonly hidden)
+
+                            .lightbox__form-control
+                                input.form-control(type='text', placeholder='IMIĘ' name='CustomerName_EDIT' id = 'CustomerName_EDIT' pattern="[A-Za-z]{1,20}"
+                                title = "Imię może zawierać jedynie litery" required)
+
+                            .lightbox__form-control
+                                input.form-control(type='text', placeholder='NAZWISKO' name='CustomerSurname_EDIT' id = 'CustomerSurname_EDIT' pattern="[A-Za-z]{1,20}"
+                                title = "Nazwisko może zawierać jedynie litery" required)
+
+                            .lightbox__form-control
+                                input.form-control(type='text', placeholder='TELEFON' name='CustomerTel_EDIT' id = 'CustomerTel_EDIT' pattern="[0-9]{9}"
+                                title = "Numer telefonu musi zawierać 9 cyfr" required)
+
+                            .lightbox__form-control
+                                input.form-control(type='text', placeholder='ULICA' name='CustomerStreet_EDIT' id = 'CustomerStreet_EDIT' maxlength="99" required)
+
+                            .lightbox__form-control
+                                select.form-control(name='CityList' required)
+                                    option(value ='' disabled selected hidden) Miasto
+                                    each x in cities
+                                        option(value=x.KOD_POCZTOWY) #{x.MIEJSCOWOSC}
+
+                            button.btn(type='button', @click="formLightbox = false") Anuluj
+                            button.btn(type='submit') Wyślij
+
+
+                .lightbox(v-show="formLightbox2 == true" style="display: none;")
+                    .lightbox__content
+                        h4 Czy chcesz usunąć tego klienta?
+                        h5 Tej operacji nie będzie można cofnąć!
+
+                        form.lightbox__form(action="/api/deleteCustomer?_method=DELETE" method="POST")
+                            .lightbox__form-control
+                                input.form-control(type='text', placeholder='ID' name='CustomerID_Del' id = 'CustomerID_Del' readonly hidden)
+
+                            button.btn(type='button', @click="formLightbox2 = false") Anuluj
+                            button.btn(type='submit') Usuń
+
+
+                .lightbox(v-show="formLightbox1 == true" style="display: none;")
+                    .lightbox__content
+                        h4 Czy chcesz wygenerować podsumowanie?
+
+                        form.lightbox__form(action="/api/createSummary" method="GET")
+                            .lightbox__form-control
+                                input.form-control(type='text', placeholder='ID' name='CustomerID_Summary' id = 'CustomerID_Summary' readonly hidden)
+
+                            button.btn(type='button', @click="formLightbox1 = false") Anuluj
+                            button.btn(type='submit') Tak
+
+                if(summary)
+                    .lightbox(v-show="formLightbox3 == true" style="display: none;")
+                        .lightbox__content
+                            h3 Podsumowanie zamówień klienta
+                            div.lightbox__form
+                                .lightbox__form-control
+                                    |Imię: #{customerName.IMIE}
+                                    br
+                                    |Nazwisko: #{customerName.NAZWISKO}
+
+                                .lightbox__form-control
+                                    div.show-data(style = "background-color: transparent;")
+                                        if(orderData)
+                                            if(orderData.length)
+                                                table(style = "color: #222222; border: 0;")
+                                                    tr
+                                                        th LP
+                                                        th ID
+                                                        th Data - Start
+                                                        th Produkt
+                                                        th Ilość
+                                                        th Cena
+                                                        th Koszt
+
+                                                    - for(let i = 0; i < orderData.length; i++)
+                                                        tr
+                                                            td #{i + 1}
+                                                            td #{orderData[i].ZamowienieID}
+                                                            td #{orderData[i].ZamowienieDataStart}
+                                                            td #{orderData[i].ProduktNazwa}
+                                                            td #{orderData[i].ZamowenieIlosc}
+                                                            td #{orderData[i].ProduktCena}
+                                                            td #{orderData[i].ProduktCena * orderData[i].ZamowenieIlosc}
+
+                                                .lightbox__form-control(style = "text-align: right;")
+                                                    h4 Łączny koszt: #{totalCost}zł
+                                            else
+                                                h5 Brak aktywnych zamówień dla tego klienta
+
+
+                                .lightbox__form-control
+                                    button.btn(type='button', @click="formLightbox3 = false") OK
+
+
+
+
+            script(src = "https://cdn.jsdelivr.net/npm/vue" type = "text/javascript")
+            script(src = "/js/app.js")
