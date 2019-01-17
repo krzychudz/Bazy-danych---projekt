@@ -1,0 +1,69 @@
+html
+    head
+        title Zamówienia
+        link(rel='stylesheet' href='/css/productCreate.css')
+    body
+        .shop-app(data-lightbox=showLightbox)
+            div#wrapper
+                div#header
+                    h2 Dodawanie nowych zamówień
+                div#formContainer
+                    form(method='POST' action='/api/orderCreate')
+                        div.form-group
+                            select.form-control(name='productList' required)
+                                option(value='' disabled selected hidden) Produkt
+                                each x in products
+                                    option(value=x.ID_PRODUKT) #{x.NAZWA}
+
+                        div.form-group(style='float:left; margin-left: 410px')
+                            select.form-control(name='customerList' required)
+                                option(value="" disabled selected hidden) Klient
+                                each x in customers
+                                    option(value=x.KLIENT_ID) #{x.IMIE} #{x.NAZWISKO}
+                        div(style='float:left; margin-left: 10px')
+                            button.btn(type='button', @click="formLightbox = true") Dodaj Klienta
+                        div(style='clear: both')
+
+                        div.form-group
+                            input.form-control(type='number', placeholder='Ilość' name='OrderAmount' min = "1" max = "9999" required)
+
+                        div.form-group
+                            input.date-control(type='date', placeholder='Data' name='OrderDateStart' required)
+
+                        div.form-group
+                            input.date-control(type='date', placeholder='Data' name='OrderDateEnd')
+
+                        if(formMessage.length)
+                            h4 #{formMessage}
+
+                        div.form-group
+                            button.btn(type='button', onclick="location.href='/'") Powrót
+                            button.btn(type='submit') Wyślij
+
+
+                    .lightbox(v-show="formLightbox == true" style="display: none;")
+                        .lightbox__content
+                            h4 Nowy klient
+                            form.lightbox__form(action="/api/customers" method="POST")
+                                .lightbox__form-control
+                                    input.form-control(type='text', placeholder='Imię' name='CustomerFirstname' pattern="[A-Za-z]{1,20}"
+                                    title = "Imię może zawierać jedynie litery" required)
+                                .lightbox__form-control
+                                    input.form-control(type='text', placeholder='Nazwisko' name='CustomerLastname' pattern="[A-Za-z]{1,20}"
+                                    title = "Nazwisko może zawierać jedynie litery" required)
+                                .lightbox__form-control
+                                    input.form-control(type='text', placeholder='Telefon' name='CustomerTel' pattern="[0-9]{9}"
+                                    title = "Numer telefonu musi zawierać 9 cyfr" required)
+                                .lightbox__form-control
+                                    input.form-control(type='text', placeholder='Ulica' name='CustomerStreet' maxlength="99" required)
+                                .lightbox__form-control
+                                    select.form-control(name='CityList' required)
+                                        option(value="" disabled selected hidden) Miasto
+                                        each x in cities
+                                            option(value=x.KOD_POCZTOWY) #{x.MIEJSCOWOSC}
+                                button.btn(type='button', @click="formLightbox = false") Anuluj
+                                button.btn(type='submit') Wyślij
+
+
+        script(src="https://cdn.jsdelivr.net/npm/vue" type="text/javascript")
+        script(src="/js/app.js")

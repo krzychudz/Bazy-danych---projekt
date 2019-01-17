@@ -4,7 +4,8 @@ html
         link(rel='stylesheet' href='/css/home.css')
     body
         div#wrapper
-            div#header System zarządania sklepem
+            div#header
+               h2 System zarządania sklepem
 
         div#nav
             ol
@@ -13,34 +14,39 @@ html
                         li
                             a(href="/productCreate") Dodaj
                         li
-                            a(href="#") Wyświetl/Edytuj
+                            a(href="/productShowEdit") Wyświetl/Edytuj
                 li Zamówenia
                     ul
                         li
-                            a(href="#") Dodaj
+                            a(href="/orderCreate") Dodaj
                         li
-                            a(href="#") Wyświetl/Edytuj
+                            a(href="/orderShowEdit") Wyświetl/Edytuj
                 li Reklamacje
                     ul
                         li
-                            a(href="#") Dodaj
+                            a(href="/complaintCreate") Dodaj
                         li
-                            a(href="#") Wyświetl/Edytuj
+                            a(href="/complaintShowEdit") Wyświetl/Edytuj
                 li Dostawy
                     ul
                         li
-                            a(href="#") Wyświetl
+                            a(href="/delivery") Wyświetl
                 li Magazyn
                     ul
                         li
-                            a(href="#") Wyświetl
+                            a(href="/storehouse") Wyświetl
+
+                li Klient
+                    ul
+                        li
+                            a(href="/customersShowEdit") Wyświetl
 
 
         div#content
-            p Za pomocą tego systemu możesz w prosty sposób kontrolować swój sklep.
-            p Wybierając odpowiednie pozycje z menu powyżej możesz kontrolować różne aspetky sklepu.
-            p Produkty - tutaj możesz dodać, usunąć, edytować lub wyświetlić listę produktów w twoim sklepie.
-            p Zamówenia - tutaj możesz dodać, usunąć, edytować lub wyświelić listę zamówień.
-            p Reklamacje - tutaj możesz dodać, usunąć, edytować lub wyświelić listę reklamacji.
-            p Dostawy - tutaj możesz wyświelić listę dotawy, które są planwane w twoim sklepie.
-            p Magazyn - tutaj sprawdzisz aktulany stan magazynu.
+            p(style="text-align:center;") Za pomocą tego systemu możesz w prosty sposób kontrolować swój sklep.
+            p(style="text-align:center;") Wybierając odpowiednie pozycje z menu powyżej możesz kontrolować różne aspetky sklepu.
+            p Produkty - dodawanie, edycja oraz usuwanie produktów.
+            p Zamówenia - dodawanie, edycja oraz usuwanie zamówień.
+            p Reklamacje - dodawanie, kończenie oraz usuwanie reklamacji.
+            p Dostawy - lista dostaw produktów do sklepu.
+            p Magazyn - aktualny stan magazynu.

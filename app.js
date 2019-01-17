@@ -6,6 +6,8 @@ const flash = require('connect-flash');
 const session = require('express-session');
 const routes = require('./routes/index');
 
+const methodOverride = require('method-override');
+
 
 const app = express();
 
@@ -17,6 +19,7 @@ app.use(express.static(path.join(__dirname,'public'))); //set dir for public
 app.use(bodyParser.json()); // Configure body parser
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(cookieParser()); // Configure cookie parser
+app.use(methodOverride('_method'));
 
 app.use(session(
     {

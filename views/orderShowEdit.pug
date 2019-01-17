@@ -1,0 +1,142 @@
+html
+    head
+        title Zamówenia
+        link(rel='stylesheet' href='/css/productCreate.css')
+        link(rel='stylesheet' href='/css/fontello.css')
+
+        script.
+            function getIDtoEdit(clickedID) {
+                let split = clickedID.split(" ");
+                document.getElementById("OrderID_Edit").value = split[1];
+
+                let Amount = document.getElementById('Amount ' + split[1]).innerText;
+                document.getElementById("OrderAmountEdit").value = Amount;
+
+                let ID_PROD = document.getElementById('ID_PROD ' + split[1]).innerText;
+                document.getElementById("productList").value = ID_PROD;
+            };
+
+            function cancelByID(clickedID) {
+                let split = clickedID.split(" ");
+                document.getElementById("OrderID_Del").value = split[1];
+
+                let Amount = document.getElementById('Amount ' + split[1]).innerText;
+                document.getElementById("OrderAmountCancel").value = Amount;
+            };
+
+            function getIDtoFinish(clickedID) {
+                let split = clickedID.split(" ");
+                document.getElementById("OrderID_Finish").value = split[1];
+
+            }
+
+
+    body
+        .shop-app(data-lightbox=showLightbox)
+            div#wrapper
+                div#header
+                    h2 Przeglądanie oraz edycja zamówień
+                div#formContainer
+                    form(method='GET' action='/api/orderData')
+                        div.form-group
+                            input.form-control(type = 'text' name = 'searchPattern' placeholder='szukaj')
+                        div.form-group
+                            button.btn(type='button', onclick="location.href='/'") Powrót
+                            button.btn(type='submit') Szukaj
+
+                        if(formMessage.length)
+                            h4 #{formMessage}
+
+                        div.show-data
+                            if(data)
+                                if(data.length)
+                                    table
+                                        tr
+                                            th LP
+                                            th ID
+                                            th Data - start
+                                            th Data - koniec
+                                            th ID Produktu
+                                            th Nazwa
+                                            th Imię
+                                            th Nazwisko
+                                            th Ilość
+                                            th Koszt
+                                            th Status
+                                            th Akcja
+
+                                            - for(let i = 0; i < data.length; i++)
+                                                tr
+                                                    td #{i + 1}
+                                                    td #{data[i].ZamowienieID}
+                                                    td #{data[i].ZamowienieDataStart}
+                                                    td #{data[i].ZamowienieDataKoniec}
+                                                    td(id = 'ID_PROD ' + data[i].ZamowienieID) #{data[i].ProduktID}
+                                                    td #{data[i].ProduktNazwa}
+                                                    td #{data[i].KlientImie}
+                                                    td #{data[i].KlientNazwisko}
+                                                    td(id = 'Amount ' + data[i].ZamowienieID) #{data[i].ZamowenieIlosc}
+                                                    td #{data[i].ProduktCena * data[i].ZamowenieIlosc}
+                                                    td #{data[i].ZamowienieStatus}
+                                                    td
+                                                        if(data[i].ZamowienieStatus == "REALIZACJA")
+                                                            i.icon-pencil-1(id ='Edit ' + data[i].ZamowienieID, onclick="getIDtoEdit(this.id)", @click="formLightbox = true")
+                                                            i.icon-ok(id = 'Finish ' + data[i].ZamowienieID ,onclick="getIDtoFinish(this.id)", @click = "formLightbox1 = true")
+                                                            i.icon-cancel(id ='Cancel ' + data[i].ZamowienieID, onclick='cancelByID(this.id)', @click="formLightbox2 = true")
+                                                            div(style="clear:both;")
+                                                        else
+                                                            |-
+                                else
+                                    h2 Brak dopasowania do wzorca
+
+
+                .lightbox(v-show="formLightbox == true" style="display: none;")
+                    .lightbox__content
+                        h5 Edytuj zamówienie
+                        form.lightbox__form(action="/api/order?_method=PUT" method="POST")
+                            .lightbox__form-control
+                                input.form-control(type='text', placeholder='ID' name='OrderID_Edit' id = 'OrderID_Edit' readonly hidden)
+                            .lightbox__form-control
+                                input.form-control(type='text', placeholder='ID' name='productList' id = 'productList' readonly hidden)
+
+                            .lightbox__form-control
+                                input.form-control(type='text', placeholder='Ilość' name='OrderAmountEdit' id = "OrderAmountEdit" required)
+
+
+                            button.btn(type='button', @click="formLightbox = false") Anuluj
+                            button.btn(type='submit') Wyślij
+
+
+                .lightbox(v-show="formLightbox1 == true" style="display: none;")
+                    .lightbox__content
+                        h4 Czy chcesz oznaczyć to zamówienie jako zakończone?
+                        h5 Tej operacji nie będzie można cofnąć!
+                        form.lightbox__form(action="/api/orderFin?_method=PUT" method="POST")
+                            .lightbox__form-control
+                                input.form-control(type='text', placeholder='ID' name='OrderID_Finish' id = 'OrderID_Finish' readonly hidden)
+
+                            button.btn(type='button', @click="formLightbox1 = false") Anuluj
+                            button.btn(type='submit') Tak
+
+
+
+                .lightbox(v-show="formLightbox2 == true" style="display: none;")
+                    .lightbox__content
+                        h4 Czy chcesz anulować to zamówienie?
+                        h5 Tej operacji nie będzie można cofnąć!
+                        form.lightbox__form(action="/api/orderCancel?_method=DELETE" method="POST")
+                            .lightbox__form-control
+                                input.form-control(type='text', placeholder='ID' name='OrderID_Del' id = 'OrderID_Del' readonly hidden)
+
+                            .lightbox__form-control
+                                input.form-control(type='text', placeholder='ID' name='OrderAmountCancel' id = 'OrderAmountCancel' readonly hidden)
+
+                            button.btn(type='button', @click="formLightbox2 = false") Anuluj
+                            button.btn(type='submit') Tak
+
+
+
+
+
+        script(src="https://cdn.jsdelivr.net/npm/vue" type="text/javascript")
+        script(src="/js/app.js")

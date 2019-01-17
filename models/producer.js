@@ -6,17 +6,19 @@ const producerModel = bookshelf.Model.extend(
     }
 );
 
-/*
+
 module.exports.create = (userApp) =>
 {
-    return new userModel(
+
+    return new producerModel(
         {
-            KOD_POCZTOWY: userApp.KOD_POCZTOWY,
-            MIEJSCOWOSC: userApp.MIEJSCOWOSC
+            TELEFON: userApp.TELEFON,
+            ID_ADRESPRODUCENT: userApp.ID_ADRESPRODUCENT,
+            NAZWA: userApp.NAZWA
         }
     ).save();
 };
-*/
+
 
 
 module.exports.getData = () =>

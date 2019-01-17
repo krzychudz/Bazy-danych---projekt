@@ -15,7 +15,7 @@ body
 #header
 {
     width:  100%;
-    padding: 40px 0;
+    padding: 20px 0px;
     text-align: center;
 }
 
@@ -37,6 +37,41 @@ body
     margin-right: auto;
 }
 
+.show-data
+{
+    font-size: 20px;
+    margin-top: 8px;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #222222;
+}
+
+table, th, td
+{
+    margin-top: 40px;
+    border: 1px solid black;
+    border-collapse: collapse;
+    padding: 5px;
+    font-size: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+
+}
+
+
+.date-control
+{
+    padding: 10px;
+    text-align: center;
+    color: black;
+    width: 250px;
+    border-radius: 4px;
+    border: 2px solid black;
+
+}
+
 .form-control
 {
     padding: 10px;
@@ -52,12 +87,41 @@ body
 
 .form-control:hover
 {
-    width: 500px;
+    width: 350px;
 }
+
+
+.form-control-info
+{
+    padding: 10px;
+    text-align: justify;
+    color: black;
+    width: 250px;
+    height: 200px;
+    border-radius: 4px;
+    border: 2px solid black;
+
+    -webkit-transition: width 0.4s ease-in-out;
+    transition: width 0.4s ease-in-out;
+
+}
+
+.form-control-info:hover
+{
+    width: 500px;
+    height: 200px;
+}
+
+.form-control-info:focus
+{
+    width: 500px;
+    height: 200px;
+}
+
 
 .form-control:focus
  {
-     width: 500px;
+     width: 350px;
  }
 
 .buttonSubmit
